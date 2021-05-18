@@ -9,8 +9,8 @@ class RovCam():
 
     def __init__(self,port=5000):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # for linux use SO_REUSEPORT
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        # self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # for linux use SO_REUSEPORT
+        # self.s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         self.s.bind(("", port))
         self.dat = b''
         self.dump_buffer()
@@ -32,3 +32,6 @@ class RovCam():
         img = cv2.imdecode(np.fromstring(self.dat, dtype=np.uint8), 1)
         self.dat = b''
         return img
+
+    def __del__(self):
+        self.s.close()
