@@ -15,14 +15,14 @@ while True:
         camNums = getCams()
 
     try:
-        fs = FrameSegment(port=5000, camNum=camNum)
+        fs = FrameSegment(port=5000, camNum=camNum, ip="192.168.1.111")
         cam.send()
-        print("- Started streaming")
     except  KeyboardInterrupt:
         print("- Exiting")
         break
 
     except Exception:
         print("- Unkown error, exiting")
+        break
 
 del cam
