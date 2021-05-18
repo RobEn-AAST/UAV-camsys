@@ -1,15 +1,28 @@
-from cams import RovCam
 import cv2
+import socket
+import sys
+from time import sleep
+from overflow import FrameSegment, getCams
 
-cam = RovCam(port=5000)
+# get camera indexes from linux device directory
+camNums = getCams()
 
 while True:
-	frame = cam.read()
+    # run until the correct number of cameras are connected
+    while len(camNums) < 1:
+        print("- Camera not detected, Restarting.")
+        sleep(5)
+        camNums = getCams()
 
-	cv2.imshow("UAV", frame)
+    try:
+        fs = FrameSegment(port=5000, camNum=camNum)
+        cam.send()
+        print("- Started streaming")
+    except  KeyboardInterrupt:
+        print("- Exiting")
+        break
 
-	if cv2.waitKey(1) & 0xFF == ord('q'):
-		break
+    except Exception:
+        print("- Unkown error, exiting")
 
-cv2.destroyAllWindows()
-cam.s.close()
+del cam
