@@ -14,5 +14,5 @@ while 1:
 			break
 	except:
 		countinue
-
+		
 cv2.destroyAllWindows()
